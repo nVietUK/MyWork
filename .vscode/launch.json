@@ -1,0 +1,90 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Folder",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/linuxEXE/${fileBasenameNoExtension}",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}/${fileBasenameNoExtension}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Folder",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "sourceFileMap": {
+                "/build/glibc-S7xCS9": "/usr/src/glibc"
+            }
+        },
+        {
+            "name": "Terminal",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/linuxEXE/${fileBasenameNoExtension}",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Terminal",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "sourceFileMap": {
+                "/build/glibc-S7xCS9": "/usr/src/glibc"
+            }
+        },
+        {
+            "name": "Thread",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/linuxEXE/${fileBasenameNoExtension}",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}/${fileBasenameNoExtension}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Thread",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "sourceFileMap": {
+                "/build/glibc-S7xCS9": "/usr/src/glibc"
+            }
+        },
+        {
+            "name": "Time",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/linuxEXE/${fileBasenameNoExtension}",
+            "cwd": "${fileDirname}/${fileBasenameNoExtension}",
+            "sourceFileMap": {
+                "/build/glibc-S7xCS9": "/usr/src/glibc"
+            }
+        }        
+    ]
+}
