@@ -1,0 +1,9 @@
+
+*.OUT
+*.INP
+*.cfg
+*.bat
+*.AN2
+*.pas
+.templates
+\linuxEXE
