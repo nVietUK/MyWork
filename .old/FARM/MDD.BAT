@@ -1,1 +1,0 @@
-FOR /l %%I IN (1,1,10) DO COPY FARM.* TEST%%I\
