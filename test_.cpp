@@ -22,20 +22,19 @@ template <typename T> struct wrapped_array {
 
 map<string, string> tagmap;
 
-void create(unsigned n, string pretag) {
+void create(unsigned& n, string pretag) {
     if (!n) return;
 
     string line = "", tag, attr, value;
-    getline(cin, line);
+    cin >> line;
 
     unsigned i = 1;
     if (line[i] == '/') {
-        while (line[i]!='>') i++;
+        while (line[i]!='>'); i++;
         tag = (pretag.size() > (i-2)) ? pretag.substr(0, pretag.size()-i+1) : "";
     }
     else {
-        while ((line[i] != ' ') && (line[i] != '>')) 
-            i++;
+        while ((line[i] != ' ') && (line[i] != '>')) i++;
         tag = line.substr(1, i-1);
         if (pretag != "") tag = pretag + "." + tag;
 
@@ -52,7 +51,6 @@ void create(unsigned n, string pretag) {
             tagmap[tag+"~"+attr] = value;
         }
     }
-    create(--n, tag);
 }
 
 int main() {
@@ -63,10 +61,10 @@ int main() {
     freopen("test.out", "w", stdout);
 #endif
 
-    string attr, value;
-    unsigned n, q; cin >> n >> q; getline(cin, attr);
+    unsigned n, q; cin >> n >> q;
     create(n, "");
 
+    string attr, value;
     while (q--) {
         cin >> attr; value = tagmap[attr];
         if (value == "") value = "Not Found!";
