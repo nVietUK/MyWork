@@ -21,25 +21,30 @@ template <typename T> struct wrapped_array {
 };
 
 int main() {
-    ios_base::sync_with_stdio(false);
+    ios_base::sync_with_stdio(DEBUG);
     cin.tie(NULL); cout.tie(NULL);
 #if ((__linux__ || _WIN32) && !ONLINE && !ONLINE_JUDGE)
     freopen("test.inp", "r", stdin);
     if (!DEBUG) freopen("test.out", "w", stdout);
 #endif
 
-    short a[3], b[3];
-    for (auto&& e : wrapped_array<short>a)
-        cin >> e;
-    for (auto&& e : wrapped_array(a))
-        cin >> e;
+    int T; cin >> T;
+    cout << setiosflags(ios::uppercase);
+    cout << setw(0xf) << internal;
+    while(T--) {
+        double A; cin >> A;
+        double B; cin >> B;
+        double C; cin >> C;
 
-    short ca=0, cb=0;
-    for (short i = 0; i < 3; i++) 
-        if (a[i] > b[i])
-            ca++;
-        else 
-        if (a[i] < b[i])
-            cb++;
-    cout << ca << " " << cb;        
+            cout << left << hex << showbase << nouppercase;
+            cout << (long long) A << endl;
+
+            cout.precision(2);
+            cout << showpos << fixed << setfill('_') << setw(15) << right;
+            cout << B << endl;
+
+            cout.precision(9);
+            cout << noshowpos << uppercase << scientific;
+            cout << C << endl;
+    }
 }
