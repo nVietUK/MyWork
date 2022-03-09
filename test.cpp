@@ -1,58 +1,92 @@
-#include <iostream>
-#include <sstream>
+#include<bits/stdc++.h>
+
 using namespace std;
 
-class Student {
+class Box {
     private:
-        int age = -1, standard = -1;
-        string first_name = "", last_name = "";
+        int l, b, h;
     public:
-        void set_age(const int& in) {
-            this->age = in;
+        Box() {
+            l = b = h = 0;
+        };
+        Box(int l, int b, int h) {
+            this->l = l;
+            this->b = b;
+            this->h = h;
         }
-        void set_standard(const int& in) {
-            this->standard = in;
+        Box(const Box& in) {
+            l = in.l;
+            b = in.b;
+            h = in.h;
         }
-        void set_first_name(const string& in) {
-            this->first_name = in;
+        int getLength() { return l; };
+        int getBreadth() { return b; };
+        int getheight() { return h; };
+        long long CalculateVolume() { return (long long)l * b * h; };
+        friend ostream& operator <<(ostream& out, Box& B) {
+            out << B.l << " " << B.b << " " << B.h;
+            return out;
         }
-        void set_last_name(const string& in) {
-            this->last_name = in;
-        }
-        int get_age() {
-            return this->age;
-        }
-        string get_last_name() {
-            return this->last_name;
-        }
-        string get_first_name() {
-            return this->first_name;
-        }
-        int get_standard() {
-            return this->standard;
-        }
-        string to_string() {
-            cout << this->get_age() << "," << this->get_first_name() << "," << this->get_last_name() << "," << this->get_standard();
+        friend bool operator < (Box& b1, Box& b2)
+        {
+            if((b1.l < b2.l) || (b1.l == b2.l && b1.b < b2.b) ||
+               (b1.l == b2.l && b1.b == b2.b && b1.h <b2.h))
+                return(true);
+            else
+                return(false);
         }
 };
 
-int main() {
-    int age, standard;
-    string first_name, last_name;
-    
-    cin >> age >> first_name >> last_name >> standard;
-    
-    Student st;
-    st.set_age(age);
-    st.set_standard(standard);
-    st.set_first_name(first_name);
-    st.set_last_name(last_name);
-    
-    cout << st.get_age() << "\n";
-    cout << st.get_last_name() << ", " << st.get_first_name() << "\n";
-    cout << st.get_standard() << "\n";
-    cout << "\n";
-    st.to_string();
-    
-    return 0;
+void check2()
+{
+	int n;
+	cin>>n;
+	Box temp;
+	for(int i=0;i<n;i++)
+	{
+		int type;
+		cin>>type;
+		if(type ==1)
+		{
+			cout<<temp<<endl;
+		}
+		if(type == 2)
+		{
+			int l,b,h;
+			cin>>l>>b>>h;
+			Box NewBox(l,b,h);
+			temp=NewBox;
+			cout<<temp<<endl;
+		}
+		if(type==3)
+		{
+			int l,b,h;
+			cin>>l>>b>>h;
+			Box NewBox(l,b,h);
+			if(NewBox<temp)
+			{
+				cout<<"Lesser\n";
+			}
+			else
+			{
+				cout<<"Greater\n";
+			}
+		}
+		if(type==4)
+		{
+			cout<<temp.CalculateVolume()<<endl;
+		}
+		if(type==5)
+		{
+			Box NewBox(temp);
+			cout<<NewBox<<endl;
+		}
+
+	}
+}
+
+int main()
+{
+    freopen("test.inp", "r", stdin);
+	check2();
 }
