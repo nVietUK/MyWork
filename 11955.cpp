@@ -30,7 +30,7 @@ int main(){
 		for (int i = 0; i <= k; i++) {
 			if (cof[i] > 1) cout << cof[i];
 			if (k - i > 0) 	cout << A.c_str();
-			if (k - i > 1) 	cout << k-i;
+			if (k - i > 1) 	cout << "^" << k-i;
 			if ((cof[i] > 1 || k - i > 0) && i > 0)
 							cout << "*";
 			if (i > 0)		cout << B.c_str();
