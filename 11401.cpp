@@ -20,59 +20,24 @@ template <typename T> struct wrapped_array {
     T* end_;
 };
 
-long pisano(long m)
-{
-    long prev = 0;
-    long curr = 1;
-    long res = 0;
- 
-    for(int i = 0; i < m * m; i++)
-    {
-        long temp = 0;
-        temp = curr;
-        curr = (prev + curr) % m;
-        prev = temp;
- 
-        if (prev == 0 && curr == 1)
-            res = i + 1;
-    }
-    return res;
-}
- 
-long fibonacciModulo(long n, long m)
-{
-     
-    long pisanoPeriod = pisano(m);
- 
-    n = n % pisanoPeriod;
- 
-    long prev = 0;
-    long curr = 1;
- 
-    if (n == 0)
-        return 0;
-    else if (n == 1)
-        return 1;
- 
-    for(int i = 0; i < n - 1; i++)
-    {
-        long temp = 0;
-        temp = curr;
-        curr = (prev + curr) % m;
-        prev = temp;
-    }
-    return curr % m;
-}
-
+unsigned long long dp[1000005];
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
 #if ((__linux__ || _WIN32) && !ONLINE && !ONLINE_JUDGE)
-    freopen("10689.inp", "r", stdin);
-    if (!DEBUG) freopen("10689.out", "w", stdout);
+    freopen("11401.inp", "r", stdin);
+    if (!DEBUG) freopen("11401.out", "w", stdout);
 #endif
 
-    
+    dp[3] = 0, dp[4] = 1;
+    unsigned long long i, b;
+    for(i = 5; i <= 1000000; i++) {
+        b = i/2 + 1;
+        dp[i] = dp[i-1] + i*(i-1)-(i+1)*(i-b) - b*(b-1);
+    }
+    int n;
+    while(cin >> n && n >= 3)
+        cout << dp[n];
 }
 
 struct bignum

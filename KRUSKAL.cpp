@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 #define ONLINE false
-#define DEBUG true
+#define DEBUG false
+#define fi first
+#define se second
 using namespace std;
 
 typedef long long ll;
@@ -20,59 +22,42 @@ template <typename T> struct wrapped_array {
     T* end_;
 };
 
-long pisano(long m)
-{
-    long prev = 0;
-    long curr = 1;
-    long res = 0;
- 
-    for(int i = 0; i < m * m; i++)
-    {
-        long temp = 0;
-        temp = curr;
-        curr = (prev + curr) % m;
-        prev = temp;
- 
-        if (prev == 0 && curr == 1)
-            res = i + 1;
-    }
-    return res;
-}
- 
-long fibonacciModulo(long n, long m)
-{
-     
-    long pisanoPeriod = pisano(m);
- 
-    n = n % pisanoPeriod;
- 
-    long prev = 0;
-    long curr = 1;
- 
-    if (n == 0)
-        return 0;
-    else if (n == 1)
-        return 1;
- 
-    for(int i = 0; i < n - 1; i++)
-    {
-        long temp = 0;
-        temp = curr;
-        curr = (prev + curr) % m;
-        prev = temp;
-    }
-    return curr % m;
-}
+typedef pair<float, pair<int, int>> edge;
+
+int *parent;
+
+int findSet(int x) { return (parent[x] == x) ? x : (parent[x] = findSet(parent[x])); }
+bool isSameSet(int x, int y) { return findSet(x) == findSet(y); }
+void unionSet(int x, int y)  { parent[findSet(x)] = findSet(y); }
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
 #if ((__linux__ || _WIN32) && !ONLINE && !ONLINE_JUDGE)
-    freopen("10689.inp", "r", stdin);
-    if (!DEBUG) freopen("10689.out", "w", stdout);
+    freopen("Kruskal.inp", "r", stdin);
+    if (!DEBUG) freopen("Kruskal.out", "w", stdout);
 #endif
 
-    
+    int n, m; cin >> n >> m;
+    edge edgeList[m];
+    parent = new int[n];
+
+    for (unsigned i = 0; i < m; i++)
+        cin >> edgeList[i].se.fi >> edgeList[i].se.se >> edgeList[i].fi;
+    sort(edgeList, edgeList + m);
+
+    for (unsigned i = 0; i < n; i++) parent[i] = i;
+    int u[m], v[m], dem = 0; float ans = 0;
+    for (unsigned i = 0; i < m; i++) {
+        edge curr = edgeList[i];
+        if (!isSameSet(curr.se.fi, curr.se.se)) {
+            ans=curr.fi, dem++, u[dem]=curr.se.fi, v[dem]=curr.se.se;
+            unionSet(curr.se.fi, curr.se.se);
+        }
+    }
+    cout << ans << "\n";
+    for (unsigned i = 1; i <= dem; i++) 
+        cout << u[i] << ' ' << v[i] << "\n";
 }
 
 struct bignum
