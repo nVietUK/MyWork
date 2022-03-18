@@ -1,1 +1,231 @@
-struct bignum\n{\n    vector<short> digit; bool negative = false;\n    bignum() {\n        digit = vector<short>();\n        negative = false;\n    };\n    bignum(int in) {\n        if (in < 0) {\n            negative = true;\n            in *= -1;\n        }\n        else \n        if (in == 0) {\n            digit = vector<short>({0});\n            negative = false;\n            return;\n        }\n        while (in) {\n            digit.push_back(in % 10);\n            in /= 10;\n        }\n    }\n    bignum(vector<short> inp1, bool inp2) {\n        digit = inp1;\n        negative = inp2;\n    }\n    void check(bignum& a, bignum& b) {\n        while (a.digit.size() < b.digit.size())\n            a.digit.push_back(0);\n        while (a.digit.size() > b.digit.size())\n            b.digit.push_back(0);\n    }\n    bignum check(bignum in) {\n        if (in.digit.size() == 0)\n            return tobignum(0, false);\n        while(*(in.digit.end() - 1) == 0 && in.digit.size() > 1)\n            in.digit.pop_back();\n        return in;\n    }\n    long long toll(bignum in) {\n        long long ou = 0;\n        for (unsigned i = 0; i < in.digit.size(); i++)\n            ou += in.digit[i] * (pow(10, i));\n        if (in.negative)\n            ou = 0 - ou;\n        return ou;\n    }\n    bignum tobignum(long long in, bool negative) {\n        bignum ou;\n        ou.negative = negative;\n        in = abs(in);\n        if (!in)\n            ou.digit = {0};\n        else \n            while (in) {\n                ou.digit.push_back(in % 10);\n                in /= 10;\n            }\n        return ou;\n    }\n    friend istream& operator>>(istream& iostr, bignum& in) {\n        string input; iostr >> input;\n        in.digit.clear();\n        while (input.size()) {\n            if (isdigit(*(input.end()-1)))\n                in.digit.push_back(*(input.end()-1) - '0');\n            else \n            if (*(input.end()-1) == '-')\n                in.negative = true;\n            input.pop_back();\n        }\n        while (*(in.digit.end()-1) == 0)\n            in.digit.pop_back();\n        return iostr;\n    }\n    friend ostream& operator<<(ostream& iostr, bignum in) {\n        if (in.negative) iostr << "-";\n        while (in.digit.size()) {\n            iostr << (*(in.digit.end()-1));\n            in.digit.pop_back();\n        }\n        return iostr;\n    }\n    bignum operator+(bignum in) {\n        auto a = check(*this); auto b = check(in); check(a, b);\n        if (a.negative != b.negative) {\n            if (a.negative) return check(tru(b, a));\n            else            return check(tru(a, b));\n        }\n        return check(cong(a, b));\n    }\n    bignum operator-(bignum in) {\n        auto a = check(*this); auto b = check(in); check(a, b);\n        if (b.negative)\n            return check(bignum{b.digit, false} + a);\n        return check(tru(a, b));\n    }\n    bignum operator-=(bignum in){\n        *this = *this - in;\n        return *this;\n    }\n    bignum operator*(bignum in) {\n        auto a = check(*this); auto b = check(in);\n        if (a > b)\n            swap(a, b);\n        if (a.digit.size() == 1)\n            return nhan1(a, b);\n        auto length = a.digit.size()/2;\n        bignum  righA = {vector<short> (a.digit.begin(), a.digit.begin() + length), false},\n                leftA = {vector<short> (a.digit.begin() + length, a.digit.end()), false},\n                righB = {vector<short> (b.digit.begin(), b.digit.begin() + length), false},\n                leftB = {vector<short> (b.digit.begin() + length, b.digit.end()), false},                \n        t0 = righA * righB,\n        t1 = (leftA * righB) + (leftB * righA),\n        t2 = leftA * leftB, \n        ou = nhan10(t2,(length) * 2) + nhan10(t1, length) + t0;\n        ou.negative = (a.negative ^ b.negative);\n        return ou;\n    }\n    bignum operator/(bignum in) {\n        bignum a = check(*this), b = check(in), ou, temp(0);\n        if (a.digit.size() < b.digit.size())\n            return tobignum(0, false);\n        ou.digit.clear(); b.negative = a.negative = false;\n        auto iter = a.digit.rbegin();\n        while (iter != a.digit.rend()) {\n            temp = temp * 10 + bignum(*iter);\n            unsigned count = 0;\n            while (temp >= b) \n                temp -= b, count++;\n            ou = ou * 10 + count;\n            iter++;\n        }\n        ou.negative = ((*this).negative ^ in.negative);\n        return ou;\n    }\n    short tru(short a, short b, unsigned* du) {\n        *du = 0; short ou = a - b;\n        if (ou < 0) {\n            *du = 1;\n            return 10 + ou;\n        }\n        return ou;\n    }\n    bignum tru(bignum a, bignum b) {\n        bignum ou;\n        if (less(a, b)) {\n            ou = bignum{b.digit, false} - a;\n            ou.negative = true;\n            return ou;\n        }\n        unsigned du = 0; ou.negative = a.negative;\n        ou.digit.push_back(tru(a.digit[0], b.digit[0], &du));\n        for (unsigned i = 1; i < a.digit.size(); i++) {\n            unsigned Du1 = 0, Du2 = 0;\n            ou.digit.push_back(tru(tru(a.digit[i], b.digit[i], &Du1), du, &Du2) % 10);\n            du = Du1 || Du2;\n        }\n        if (!toll(ou))\n            ou.negative = false;\n        return ou;\n    }\n    bignum cong(bignum a, bignum b) {\n        unsigned du = 0; vector<short> ou; ou.clear();\n        ou.push_back((a.digit[0] + b.digit[0]) % 10);\n        du = bool(a.digit[0] + b.digit[0] > 9);\n        for (unsigned i = 1; i < a.digit.size(); i++) {\n            ou.push_back((a.digit[i] + b.digit[i] + du) % 10);\n            du = bool(a.digit[i] + b.digit[i] + du > 9);\n        }\n        ou.push_back(du);\n        while (*ou.begin() == '0')\n            ou.erase(ou.begin());\n        return {ou, a.negative};\n    }\n    bignum nhan1(bignum a, bignum b) {\n        int gun = toll(a), du = 0;\n        for (auto& digit : b.digit) \n            digit *= gun, digit += du, du = digit / 10, digit %= 10;\n        b.digit.push_back(du);\n        return b;\n    }\n    bignum nhan10(bignum in, long long length) {\n        while (length--)\n            in.digit.insert(in.digit.begin(), 0);\n        return in;\n    }\n    bool operator<(bignum in) {\n        auto a = *this; auto b = in;\n        if (a.negative != b.negative)\n            return a.negative;\n        bool equal, ou = less(a, b, &equal);\n        return ou ^ a.negative && !equal;\n    }\n    bool operator>(bignum in) {\n        auto a = *this; auto b = in;\n        if (a.negative != b.negative)\n            return !a.negative;\n        bool equal, ou = !less(a, b, &equal);\n        return ou ^ a.negative && !equal;\n    }\n    bool operator==(bignum in) {\n        bool ou = false;\n        less(*this, in, &ou);\n        return ou && ((*this).negative == in.negative);\n    }\n    bool operator>=(bignum in) {\n        return !(*this < in) || *this == in;\n    }\n    bool operator<=(bignum in) {\n        return *this < in || *this == in;\n    }\n    bool less(bignum left, bignum righ, bool* equal = nullptr) {\n        if (equal   != nullptr) *equal = false; check(left, righ);\n        while (*(left.digit.end()-1) == *(righ.digit.end()-1) && left.digit.size() > 0) {\n            left.digit.pop_back();\n            righ.digit.pop_back();\n        }\n        if (left.digit.size()) {\n            bool ou = (*(left.digit.end()-1) < *(righ.digit.end()-1));\n            return ou;\n        }\n        if (equal != nullptr) *equal = true;\n        return false;\n    }\n};
+#include <bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair<unsigned, unsigned> uu;
+
+// My Functions
+template <typename T> struct wrapped_array {
+    wrapped_array(T* first, T* last)
+        : begin_ {first}, end_ {last} {}
+    wrapped_array(T* first, std::ptrdiff_t size)
+        : wrapped_array {first, first + size} {}
+
+    T* begin() const noexcept { return begin_; }
+    T* end() const noexcept { return end_; }
+
+    T* begin_;
+    T* end_;
+};
+
+class bignum{
+private:
+    vector<short> digit; bool negative = false;
+
+    void check(bignum& a, bignum& b) {
+        while (a.digit.size() < b.digit.size())
+            a.digit.push_back(0);
+        while (a.digit.size() > b.digit.size())
+            b.digit.push_back(0);
+    }
+    bignum check(bignum in) {
+        if (in.digit.size() == 0)
+            return tobignum(0, false);
+        while(*(in.digit.end() - 1) == 0 && in.digit.size() > 1)
+            in.digit.pop_back();
+        return in;
+    }
+    long long toll(bignum in) {
+        long long ou = 0;
+        for (unsigned i = 0; i < in.digit.size(); i++)
+            ou += in.digit[i] * (pow(10, i));
+        if (in.negative)
+            ou = 0 - ou;
+        return ou;
+    }
+    bignum tobignum(long long in, bool negative) {
+        bignum ou;
+        ou.negative = negative;
+        in = abs(in);
+        if (!in)
+            ou.digit = {0};
+        else 
+            while (in) {
+                ou.digit.push_back(in % 10);
+                in /= 10;
+            }
+        return ou;
+    }
+    short tru(short a, short b, unsigned* du) {
+        *du = 0; short ou = a - b;
+        if (ou < 0) { *du = 1; return 10 + ou; }
+        return ou;
+    }
+    bignum tru(bignum a, bignum b) {
+        bignum ou;
+        if (less(a, b)) { ou = bignum{b.digit, false} - a, ou.negative = true; return ou; }
+        unsigned du = 0; ou.negative = a.negative;
+        ou.digit.push_back(tru(a.digit[0], b.digit[0], &du));
+        for (unsigned i = 1; i < a.digit.size(); i++) {
+            unsigned Du1 = 0, Du2 = 0;
+            ou.digit.push_back(tru(tru(a.digit[i], b.digit[i], &Du1), du, &Du2) % 10);
+            du = Du1 || Du2;
+        }
+        if (!toll(ou)) { ou.negative = false; }
+        return ou;
+    }
+    bignum cong(bignum a, bignum b) {
+        unsigned du = 0; vector<short> ou; ou.clear();
+        ou.push_back((a.digit[0] + b.digit[0]) % 10);
+        du = bool(a.digit[0] + b.digit[0] > 9);
+        for (unsigned i = 1; i < a.digit.size(); i++) {
+            ou.push_back((a.digit[i] + b.digit[i] + du) % 10);
+            du = bool(a.digit[i] + b.digit[i] + du > 9);
+        }
+        ou.push_back(du);
+        while (*ou.begin() == '0') { ou.erase(ou.begin()); }
+        return {ou, a.negative};
+    }
+    bignum nhan1(bignum a, bignum b) {
+        int gun = toll(a), du = 0;
+        for (auto& digit : b.digit) { digit *= gun, digit += du, du = digit / 10, digit %= 10; }
+        b.digit.push_back(du);
+        return b;
+    }
+    bignum nhan10(bignum in, long long length) {
+        while (length--) { in.digit.insert(in.digit.begin(), 0); }
+        return in;
+    }
+public:
+    bignum() { digit = vector<short>(), negative = false; };
+    bignum(int in) {
+        if (in < 0) negative = true, in *= -1;
+        else if (in == 0) { digit = vector<short>({0}), negative = false; return; }
+        while (in) { digit.push_back(in % 10); in /= 10; }
+    }
+    bignum(vector<short> inp1, bool inp2) { digit = inp1; negative = inp2; }
+    friend istream& operator>>(istream& iostr, bignum& in) {
+        string input; iostr >> input;
+        in.digit.clear();
+        while (input.size()) {
+            if (isdigit(*(input.end()-1))) { in.digit.push_back(*(input.end()-1) - '0'); }
+            else if (*(input.end()-1) == '-') { in.negative = true; }
+            input.pop_back();
+        }
+        while (*(in.digit.end()-1) == 0) { in.digit.pop_back(); }
+        return iostr;
+    }
+    friend ostream& operator<<(ostream& iostr, bignum in) {
+        if (in.negative) iostr << "-";
+        while (in.digit.size()) { iostr << (*(in.digit.end()-1)); in.digit.pop_back(); }
+        return iostr;
+    }
+    bignum operator+(bignum in) {
+        auto a = check(*this); auto b = check(in); check(a, b);
+        if (a.negative != b.negative) {
+            if (a.negative) return check(tru(b, a));
+            else			return check(tru(a, b));
+        }
+        return check(cong(a, b));
+    }
+    bignum operator-(bignum in) {
+        auto a = check(*this); auto b = check(in); check(a, b);
+        if (b.negative) { return check(bignum{b.digit, false} + a); }
+        return check(tru(a, b));
+    }
+    bignum operator-=(bignum in){ *this = *this - in; return *this; }
+    bignum operator*(bignum in) {
+        auto a = check(*this); auto b = check(in);
+        if (a > b) { swap(a, b); }
+        if (a.digit.size() == 1) { return nhan1(a, b); }
+        auto length = a.digit.size()/2;
+        bignum  righA = {vector<short> (a.digit.begin(), a.digit.begin() + length), false},
+                leftA = {vector<short> (a.digit.begin() + length, a.digit.end()), false},
+                righB = {vector<short> (b.digit.begin(), b.digit.begin() + length), false},
+                leftB = {vector<short> (b.digit.begin() + length, b.digit.end()), false},				
+        t0 = righA * righB,
+        t1 = (leftA * righB) + (leftB * righA),
+        t2 = leftA * leftB, 
+        ou = nhan10(t2,(length) * 2) + nhan10(t1, length) + t0;
+        ou.negative = (a.negative ^ b.negative);
+        return ou;
+    }
+    bignum operator/(bignum in) {
+        bignum a = check(*this), b = check(in), ou, temp(0);
+        if (a.digit.size() < b.digit.size()) { return tobignum(0, false); }
+        ou.digit.clear(), b.negative = a.negative = false;
+        auto iter = a.digit.rbegin();
+        while (iter != a.digit.rend()) {
+            temp = temp * 10 + bignum(*iter);
+            unsigned count = 0;
+            while (temp >= b) { temp -= b, count++; }
+            ou = ou * 10 + count, iter++;
+        }
+        ou.negative = ((*this).negative ^ in.negative);
+        return ou;
+    }
+    bool operator<(bignum in) {
+        auto a = *this; auto b = in;
+        if (a.negative != b.negative) { return a.negative; }
+        bool equal, ou = less(a, b, &equal);
+        return ou ^ a.negative && !equal;
+    }
+    bool operator>(bignum in) {
+        auto a = *this; auto b = in;
+        if (a.negative != b.negative) { return !a.negative; }
+        bool equal, ou = !less(a, b, &equal);
+        return ou ^ a.negative && !equal;
+    }
+    bool operator==(bignum in) {
+        bool ou = false; less(*this, in, &ou);
+        return ou && ((*this).negative == in.negative);
+    }
+    bool operator>=(bignum in) { return !(*this < in) || *this == in; }
+    bool operator<=(bignum in) { return *this < in || *this == in; }
+    bool less(bignum left, bignum righ, bool* equal = nullptr) {
+        if (equal   != nullptr) *equal = false; check(left, righ);
+        while (*(left.digit.end()-1) == *(righ.digit.end()-1) && left.digit.size() > 0) {
+            left.digit.pop_back();
+            righ.digit.pop_back();
+        }
+        if (left.digit.size()) {
+            bool ou = (*(left.digit.end()-1) < *(righ.digit.end()-1));
+            return ou;
+        }
+        if (equal != nullptr) { *equal = true; }
+        return false;
+    }
+};
+
+int main() {
+
+    try { nVietUKComputer; }
+    catch(const std::exception& e)
+    {
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL); cout.tie(NULL);
+        freopen("10882.inp", "r", stdin);
+        freopen("10882.out", "w", stdout);
+    }
+    
+
+
+    unsigned t, s = 1;
+    cin >> t;
+    while (t--){
+        unsigned a, b, c;
+        cin >> a >> b >> c;
+        unsigned high = min(a, min(b, c)), low;
+        if (a + b + c <= 100) 
+            low = 0;
+        else 
+            low = (a+b+c-100+1) / 2;
+        cout << "Case #" << s++ << ": ";
+        if ((low < 0) || (low > high))
+            cout << "The records are faulty.";
+        else
+            cout << "Between " << low << " and " << high << " times.";
+        cout << "\n";
+    }
+}
