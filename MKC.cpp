@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 #define ONLINE false
+#define fi first
+#define se second
 using namespace std;
 
 typedef long long ll;
@@ -112,7 +114,7 @@ public:
             else if (*(input.end()-1) == '-') { in.negative = true; }
             input.pop_back();
         }
-        while (*(in.digit.end()-1) == 0) { in.digit.pop_back(); }
+        while ((in.digit.size()) && (*(in.digit.end()-1) == 0)) { in.digit.pop_back(); }
         return iostr;
     }
     friend ostream& operator<<(ostream& iostr, bignum in) {
@@ -197,31 +199,45 @@ public:
     };
 };
 
+typedef pair<int, pair<int, int>> edge;
+
+map<int, int> parent;
+
+unsigned *arr;
+
+int findSet(int x) { return (parent[x] == x) ? x : (parent[x] = findSet(parent[x])); }
+bool isSameSet(int x, int y) { return findSet(x) == findSet(y); }
+void unionSet(int x, int y)  { parent[findSet(x)] = findSet(y); }
+
 int main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+#if (!nVietUKComputer)
+    cout.tie(NULL);
+    freopen("MKC.out", "w", stdout);
+#endif
 #if (!ONLINE && !ONLINE_JUDGE)
-    #if (!nVietUKComputer)
-        ios_base::sync_with_stdio(false);
-        cin.tie(NULL); cout.tie(NULL);
-        freopen("10882.out", "w", stdout);
-    #endif
-    freopen("10882.inp", "r", stdin);
+    freopen("MKC.inp", "r", stdin);
 #endif
 
-    unsigned t, s = 1;
-    cin >> t;
-    while (t--){
-        unsigned a, b, c;
-        cin >> a >> b >> c;
-        unsigned high = min(a, min(b, c)), low;
-        if (a + b + c <= 100) 
-            low = 0;
-        else 
-            low = (a+b+c-100+1) / 2;
-        cout << "Case #" << s++ << ": ";
-        if ((low < 0) || (low > high))
-            cout << "The records are faulty.";
-        else
-            cout << "Between " << low << " and " << high << " times.";
-        cout << "\n";
+    unsigned n, m, minU = INT_MAX, ok_root; cin >> n >> m;
+    vector<edge> edgeList(m);
+    arr = new unsigned[n];
+    for (unsigned i = 0; i < n; i++) {
+        cin >> arr[i]; if (minU > arr[i]) { minU = arr[i], ok_root = i; };
     }
+    while (m--) 
+        cin >> edgeList[m].se.fi >> edgeList[m].se.se >> edgeList[m].fi;
+    for (unsigned i = 0; i < n; i++) if (i != ok_root)
+        edgeList.push_back(edge(arr[ok_root]+arr[i], uu(i, ok_root)));
+    sort(edgeList.begin(), edgeList.end());
+
+    for (unsigned i = 0; i < n; i++) parent[i] = i;
+    unsigned ans = 0;
+    for (unsigned i = 0; i < edgeList.size(); i++) {
+        edge curr = edgeList[i];
+        if (!isSameSet(curr.se.fi, curr.se.se)) {
+            ans += curr.fi; unionSet(curr.se.fi, curr.se.se);
+        }
+    }
+    cout << ans;
 }

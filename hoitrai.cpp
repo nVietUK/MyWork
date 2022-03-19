@@ -197,31 +197,43 @@ public:
     };
 };
 
+unsigned N, M, K;
+
 int main() {
 #if (!ONLINE && !ONLINE_JUDGE)
     #if (!nVietUKComputer)
         ios_base::sync_with_stdio(false);
         cin.tie(NULL); cout.tie(NULL);
-        freopen("10882.out", "w", stdout);
+        freopen("hoitrai.out", "w", stdout);
     #endif
-    freopen("10882.inp", "r", stdin);
+    freopen("hoitrai.inp", "r", stdin);
 #endif
 
-    unsigned t, s = 1;
-    cin >> t;
-    while (t--){
-        unsigned a, b, c;
-        cin >> a >> b >> c;
-        unsigned high = min(a, min(b, c)), low;
-        if (a + b + c <= 100) 
-            low = 0;
-        else 
-            low = (a+b+c-100+1) / 2;
-        cout << "Case #" << s++ << ": ";
-        if ((low < 0) || (low > high))
-            cout << "The records are faulty.";
-        else
-            cout << "Between " << low << " and " << high << " times.";
-        cout << "\n";
+    cin >> N >> M >> K;
+    unsigned database[N+1][N+1], out[N+1][N+1];
+    for (auto& e : database)
+        for (auto& e0 : e)
+            e0 = 1e8;
+    for (auto& e : out)
+        for (auto& e0 : e)
+            e0 = 0;
+    unsigned x, y; while (M--) {
+        cin >> x >> y;
+        database[x][y] = database[y][x] = 1;
+        out[x][y] = out[y][x] = 1;
+    }
+
+    for (unsigned k = 1; k <= N; k++)
+        for (x = 1; x <= N; x++)
+            for (y = 1; y <= N; y++)
+                if (database[x][k]+database[k][y] < database[x][y]) {
+                    database[x][y] = database[x][k] + database[k][y];
+                    out[x][y] = 1;
+                }
+                else if (database[x][k]+database[k][y] == database[x][y]) out[x][y]++;
+    
+    while (K--) {
+        cin >> x >> y;
+        cout << out[x][y] << "\n";
     }
 }

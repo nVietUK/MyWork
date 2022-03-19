@@ -7,6 +7,7 @@ typedef unsigned long long ull;
 typedef pair<unsigned, unsigned> uu;
 
 // My Functions
+#define convert(in, function) transform(in.begin(), in.end(), in.begin(), [](unsigned char c) { return function(c); });
 template <typename T> struct wrapped_array {
     wrapped_array(T* first, T* last)
         : begin_ {first}, end_ {last} {}
@@ -17,7 +18,6 @@ template <typename T> struct wrapped_array {
     T* begin_;
     T* end_;
 };
-
 class bignum{
 private:
     vector<short> digit; bool negative = false;
@@ -124,7 +124,7 @@ public:
         auto a = check(*this); auto b = check(in); check(a, b);
         if (a.negative != b.negative) {
             if (a.negative) return check(tru(b, a));
-            else			return check(tru(a, b));
+            else		return check(tru(a, b));
         }
         return check(cong(a, b));
     }
@@ -142,7 +142,7 @@ public:
         bignum  righA = {vector<short> (a.digit.begin(), a.digit.begin() + length), false},
                 leftA = {vector<short> (a.digit.begin() + length, a.digit.end()), false},
                 righB = {vector<short> (b.digit.begin(), b.digit.begin() + length), false},
-                leftB = {vector<short> (b.digit.begin() + length, b.digit.end()), false},				
+                leftB = {vector<short> (b.digit.begin() + length, b.digit.end()), false},
         t0 = righA * righB,
         t1 = (leftA * righB) + (leftB * righA),
         t2 = leftA * leftB, 
@@ -197,30 +197,55 @@ public:
     };
 };
 
+int *p, *q, *cost, *st;
+
+void update(int id, int l, int r, int pos, int v) {
+    if (l == r) { st[id] = v; return; }
+    int m = (l+r)/2;
+    if (pos <= m) { update(id*2, l, m, pos, v); }
+    else { update(id*2+1, m+1, r, pos, v); };
+    st[id] = min(st[id*2], st[id*2+1]);
+}
+
+int find(int id, int l, int r, int v) {
+    if (st[id] > v) return -1;
+    if (l == r) return l;
+    int m = (l+r)/2;
+    if (st[id*2] <= v) { return find(id*2, l, m, v); }
+    else { return find(id*2+1, m+1, r, v); }
+    return -1;
+}
+
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL); cout.tie(NULL);
 #if (!ONLINE && !ONLINE_JUDGE)
-    freopen("test.inp", "r", stdin);
     try { nVietUKComputer; }
-    catch (...) { freopen("test.out", "w", stdout); }
+    catch (...) {
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL); cout.tie(NULL);
+        freopen("test.out", "w", stdout);
+    }
+    freopen("test.inp", "r", stdin);
 #endif
 
-    unsigned t, s = 1;
-    cin >> t;
-    while (t--){
-        unsigned a, b, c;
-        cin >> a >> b >> c;
-        unsigned high = min(a, min(b, c)), low;
-        if (a + b + c <= 100) 
-            low = 0;
-        else 
-            low = (a+b+c-100+1) / 2;
-        cout << "Case #" << s++ << ": ";
-        if ((low < 0) || (low > high))
-            cout << "The records are faulty.";
-        else
-            cout << "Between " << low << " and " << high << " times.";
-        cout << "\n";
+    unsigned n, k; cin >> n >> k;
+    p = new int[n], q = new int[n+1], cost = new int[n], st = new int[4*n];
+    for (auto&& e : wrapped_array(cost, n)) e = 1; for (auto&& e : wrapped_array(st, 4*n)) e = 1;
+
+    for (unsigned i = 0; i < n; i++) { cin >> p[i]; q[p[i]] = i; }
+
+    for (int pos = 0; pos < n; pos++) {
+        int val = find(1, 1, n, k-cost[pos]);
+        if (val != -1 && p[pos] > val) {
+            int ok_pos = q[val];
+            swap(p[pos], p[ok_pos]);
+            swap(q[p[pos]], q[p[ok_pos]]);
+            cost[ok_pos] += cost[pos];
+            update(1, 1, n, p[ok_pos], cost[ok_pos]);
+        }
+        cost[pos] = 1e9;
+        update(1, 1, n, p[pos], cost[pos]);
     }
+
+    for (int i = 0; i < n; i++)
+        cout << p[i] << " ";
 }

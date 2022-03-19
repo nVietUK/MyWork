@@ -7,6 +7,7 @@ typedef unsigned long long ull;
 typedef pair<unsigned, unsigned> uu;
 
 // My Functions
+#define convert(in, function) transform(in.begin(), in.end(), in.begin(), [](unsigned char c) { return function(c); });
 template <typename T> struct wrapped_array {
     wrapped_array(T* first, T* last)
         : begin_ {first}, end_ {last} {}
@@ -17,7 +18,6 @@ template <typename T> struct wrapped_array {
     T* begin_;
     T* end_;
 };
-
 class bignum{
 private:
     vector<short> digit; bool negative = false;
@@ -124,7 +124,7 @@ public:
         auto a = check(*this); auto b = check(in); check(a, b);
         if (a.negative != b.negative) {
             if (a.negative) return check(tru(b, a));
-            else			return check(tru(a, b));
+            else		return check(tru(a, b));
         }
         return check(cong(a, b));
     }
@@ -142,7 +142,7 @@ public:
         bignum  righA = {vector<short> (a.digit.begin(), a.digit.begin() + length), false},
                 leftA = {vector<short> (a.digit.begin() + length, a.digit.end()), false},
                 righB = {vector<short> (b.digit.begin(), b.digit.begin() + length), false},
-                leftB = {vector<short> (b.digit.begin() + length, b.digit.end()), false},				
+                leftB = {vector<short> (b.digit.begin() + length, b.digit.end()), false},
         t0 = righA * righB,
         t1 = (leftA * righB) + (leftB * righA),
         t2 = leftA * leftB, 
@@ -222,12 +222,13 @@ void power(long long x[][2],long long k,long long p) {
 }
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL); cout.tie(NULL);
 #if (!ONLINE && !ONLINE_JUDGE)
+    #if (!nVietUKComputer)
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL); cout.tie(NULL);
+        freopen("10689.out", "w", stdout);
+    #endif
     freopen("10689.inp", "r", stdin);
-    try { nVietUKComputer; }
-    catch (...) { freopen("10689.out", "w", stdout); }
 #endif
 
     long long n, m, p, matrix[2][2], a, b;
