@@ -31,17 +31,6 @@ void init(unsigned stop) {
                 value[i] = false;
 }
 
-void init1(unsigned stop) {
-    value = new bool[stop+1]; memset(value, true, sizeof(value));
-    
-    for (unsigned i = 2; i*2 <= stop; i++)
-        value[i*2] = false;
-    for (unsigned i = 3; i*i <= stop; i+=2)
-        if (value[i]) 
-            for (unsigned j = i; i*j <= stop; j+=2)
-                value[i*j] = false;
-}
-
 unsigned isPrime(const unsigned& inp) {
     for (unsigned i = 2; i*i <= inp; i+=1+(i%2))
         if (!(inp % i) && value[i])
@@ -53,15 +42,18 @@ int main() {
     ios_base::sync_with_stdio(false); cin.tie(NULL);
 
 #if (!ONLINE && !ONLINE_JUDGE)
-    #if (nVietUKComputer)
+    #if (!nVietUKComputer)
         cout.tie(NULL);
         freopen("primecount.out", "w", stdout);
     #endif
+    freopen("primecount.inp", "r", stdin);
 #endif
 
-    init1(200000);
-    unsigned x, y; cin >> x >> y; 
-    for (; x <= y; x++) 
-        if (value[x])
-            cout << x << "\n";
+    init(100000); unsigned t; cin >> t;
+    while(t--) {
+        unsigned x, y, ou; cin >> x >> y; 
+        for (; x <= y; x++) 
+            ou += isPrime(x);
+        cout << ou << "\n";
+    }
 }
