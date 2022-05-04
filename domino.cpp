@@ -10,14 +10,15 @@
 #define mp make_pair
 using namespace std;
 
-const int N = 1e5+5, M = 1e6+5; // So dinh, so canh toi da
-int n, m, vis[M], idx[N];
+//const int N = 1e5+5, M = 1e6+5; // So dinh, so canh toi da
+const int N = 30, M = 30;
+int n, m, vis[M], idx[N], beginN = M;
 vector  < pair<int, int> > ke[N]; // Danh sach canh  ke
 
-int connect()
+int connect(int start)
 {
     int cnt = 0; queue<int> Q;
-    Q.push(1); vis[1] = 1;
+    Q.push(start); vis[start] = 1;
     while (!Q.empty()) {
         cnt += 1; // so dinh duoc tham
         int u = Q.front(); Q.pop();
@@ -27,18 +28,20 @@ int connect()
             vis[v] = 1; Q.push(v);
         }
     }
-    return cnt == n;
+    return cnt == (n - beginN + 1);
 }
-int euler(int &start)
+void tour(int start);
+void euler(int start)
 {
     int cnt = 0;
-    for(int i= 1;i<=n ;i++) if (ke[i].size() & 1) {
-        if (++cnt > 2) return -1;
-        else start = i;
-    }
-    if (!connect()) return -1;
+    for(int i= beginN;i<=n ;i++) 
+        if (ke[i].size() & 1) 
+            if (++cnt > 2) return;
+    if (!connect(start)) return;
 
-    return cnt == 0 ? 2 : 1; // 2: co chu trinh; 1: chi co duong di
+    cout << 1 << "\n";
+    tour(start);
+    exit(0);
 }
 void tour(int start)
 {
@@ -58,24 +61,27 @@ void tour(int start)
         }
     }
 
-    for (int i= 0; i< CE.size();i++) printf("%d ",CE[i]);
+    for (int i= 1; i< CE.size();i++) printf("%d %d\n",CE[i-1], CE[i]);
 }
 int main()
 {
     ios::sync_with_stdio(); cin.tie(0);
 
-    freopen("Euler2.inp","r",stdin);
-    freopen("Euler2.out","w",stdout);
+    freopen("domino.inp","r",stdin);
+    freopen("domino.out","w",stdout);
 
-    cin >> n >> m;
+    cin >> m;
     for(int i=1;i<= m;i++) {
         int u, v;
         cin >> u >> v;
         ke[u].pb(mp(v, i));
         ke[v].pb(mp(u, i));
+        n = max(n, max(u, v));
+        beginN = min(beginN, min(u, v));
     }
 
-    int start=1 , val = euler(start);
-    printf("%d\n",val);
-    if (val != -1) tour(start);
+    int start;
+    for (start = 1; start <= n; start++) 
+        euler(start);
+    cout << 0;
 }

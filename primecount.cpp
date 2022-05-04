@@ -6,38 +6,6 @@ typedef long long ll;
 typedef unsigned long long ull;
 typedef pair<unsigned, unsigned> uu;
 
-// My Functions
-#define convert(in, function) transform(in.begin(), in.end(), in.begin(), [](unsigned char c) { return function(c); });
-bool *value;
-void init(unsigned stop) {
-    value = new bool[stop+1]; memset(value, false, sizeof(value));
-    value[2] = value[3] = true;
-
-    for (ull x = 1; x*x <= stop; x++)
-        for (ull y = 1; y*y <= stop; y++) {
-            ull n = (4*x*x) + (y*y);
-            if ((n <= stop) && (n % 12 == 1 || n % 12 == 5))
-                value[n] ^= true;
-            n = (3*x*x) + (y*y);
-            if ((n <= stop) && (n % 12 == 7))
-                value[n] ^= true;
-            n = (3*x*x) - (y*y);
-            if ((x > y) && (n <= stop) && (n % 12 == 11))
-                value[n] ^= true;
-        }
-    for (ull r = 5; r*r <= stop; r++) 
-        if (value[r]) 
-            for (ull i = r*r; i <= stop; i += r*r)
-                value[i] = false;
-}
-
-unsigned isPrime(const unsigned& inp) {
-    for (unsigned i = 2; i*i <= inp; i+=1+(i%2))
-        if (!(inp % i) && value[i])
-            return 0;
-    return (inp > 1);
-}
-
 int main() {
     ios_base::sync_with_stdio(false); cin.tie(NULL);
 
@@ -49,11 +17,16 @@ int main() {
     freopen("primecount.inp", "r", stdin);
 #endif
 
-    init(100000); unsigned t; cin >> t;
+    unsigned t; cin >> t;
     while(t--) {
-        unsigned x, y, ou; cin >> x >> y; 
-        for (; x <= y; x++) 
-            ou += isPrime(x);
+        unsigned x, y, xx, ou = 0; cin >> x >> y; 
+        vector<bool> isprime(y-x+1, true);
+        for (ull i = 2; i*i <= y; i++)
+            for (ull j = max(i*i, (x+i-1)/i*i); j <= y; j+= i)
+                isprime[j-x] = false;
+        if (1>=x) isprime[1-x] = false; xx = x;
+        for (; x <= y; x++)
+            if (isprime[x-xx]) ou++;
         cout << ou << "\n";
     }
 }

@@ -16,22 +16,27 @@ template <typename T> struct dyArray {
     T* end() const noexcept { return end_; } T* end_;
 };
 
+unsigned x, y, z;
+
+unsigned run(const unsigned& x, unsigned const y, const unsigned& z) {
+    if (!y) return 1;
+    if (y % 2) 
+        return (run(x, y-1, z) * (x%z)) % z;
+    unsigned n = run(x, y/2, z);
+    return (n*n) % z;
+}
+
 int main() {
 #if (!ONLINE && !ONLINE_JUDGE)
     #if (!nVietUKComputer)
         ios_base::sync_with_stdio(false); 
         cin.tie(NULL); cout.tie(NULL);
-        freopen("10689.out", "w", stdout);
+        freopen("374.out", "w", stdout);
     #endif
-    freopen("10689.inp", "r", stdin);
+    freopen("374.inp", "r", stdin);
 #endif
 
-    ull a, b, n, m, arr[15001]; unsigned k, t; cin >> t; while (t--) {
-        cin >> a >> b >> n >> m;
-        arr[0]=a%10000, arr[1]=b%10000;
-        for (int i=2; i <= 15000; i++)
-            arr[i]=(arr[i-1]+arr[i-2])%10000;
-        k = pow(10, m);
-        cout << arr[n%15000]%k << "\n";
+    while (cin >> x >> y >> z) {
+        cout << run(x, y, z) << "\n";
     }
 }

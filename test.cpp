@@ -1,32 +1,33 @@
-#include <cmath>
-#include <iostream>
-using namespace std;
- 
-int main() {
-    int i = 2, j, so, kt;
-    freopen("test.out", "w", stdout);
+#include <bits/stdc++.h>
 
-    cin >> so;
-    while (i <= so) {
-        kt = 1;
-        if (i != 0 && i != 1) {
-            j = 2;
-            while(j <= i/2) {
-                if(i%j == 0) {
-                    kt = 0;
-                    break;
-                }
-                j++;
-            }
-        } else {
-           kt = 0;
-        }
- 
-        if(kt == 1) {
-            cout << i << "\n";
-        }
-         
-       i++;
-    }
+using namespace std;
+
+#define ll long long
+#define ii pair<int,int>
+#define forw(i,a,b) for (int i=a;i<=b;i++)
+#define all(v) v.begin(),v.end()
+#define sz(a) (int)a.size()
+#define pb push_back
+#define se second
+#define fi first
+#define el "\n"
+#define file "lmao"
+
+const int oo=1e9;
+const int mod=1e9+7;
+const int N=1e9+11;
+
+signed main(){
+#if (!ONLINE && !ONLINE_JUDGE)
+    #if (!nVietUKComputer)
+        ios_base::sync_with_stdio(false); 
+        cin.tie(NULL); cout.tie(NULL);
+        freopen(file".out", "w", stdout);
+    #endif
+    freopen(file".inp", "r", stdin);
+#endif
+
+    cout << "lmao";
+
     return 0;
 }
