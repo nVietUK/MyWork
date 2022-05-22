@@ -2,7 +2,6 @@ set nocompatible
 set scl=yes
 set nu
 filetype off                 
-set shell=/usr/bin/kitty
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
