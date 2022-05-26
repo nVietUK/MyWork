@@ -13,7 +13,11 @@ call vundle#begin()
 	Plugin 'sheerun/vim-polyglot'
 	Plugin 'ryanoasis/vim-devicons'
 	Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+    Plugin 'frazrepo/vim-rainbow'
+    Plugin 'vim-airline/vim-airline'
 call vundle#end()           
+
+let g:rainbow_active = 1
 
 let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 set ts=4 sw=4 expandtab
