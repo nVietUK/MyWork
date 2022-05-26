@@ -13,8 +13,7 @@ call vundle#begin()
 	Plugin 'sheerun/vim-polyglot'
 	Plugin 'ryanoasis/vim-devicons'
 	Plugin 'neoclide/coc.nvim', {'branch': 'release'}
-    Plugin 'frazrepo/vim-rainbow'
-    Plugin 'vim-airline/vim-airline'
+    Plugin 'rbong/vim-crystalline'
 call vundle#end()           
 
 let g:rainbow_active = 1
@@ -190,3 +189,38 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+" vim-crystalline 
+function! StatusLine(current, width)
+  let l:s = ''
+
+  if a:current
+    let l:s .= crystalline#mode() . crystalline#right_mode_sep('')
+  else
+    let l:s .= '%#CrystallineInactive#'
+  endif
+  let l:s .= ' %f%h%w%m%r '
+  if a:current
+    let l:s .= crystalline#right_sep('', 'Fill') . ' %{FugitiveHead()}'
+  endif
+
+  let l:s .= '%='
+  if a:current
+    let l:s .= crystalline#left_sep('', 'Fill') . ' %{&paste ?"PASTE ":""}%{&spell?"SPELL ":""}'
+    let l:s .= crystalline#left_mode_sep('')
+  endif
+  if a:width > 80
+    let l:s .= ' %{&ft}[%{&fenc!=#""?&fenc:&enc}][%{&ff}] %l/%L %c%V %P '
+  else
+    let l:s .= ' '
+  endif
+
+  return l:s
+endfunction
+
+let g:crystalline_enable_sep = 1
+let g:crystalline_statusline_fn = 'StatusLine'
+let g:crystalline_theme = 'default'
+
+set guioptions-=e
+set laststatus=2
