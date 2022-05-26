@@ -7,7 +7,7 @@
     	        "request": "launch",
     	        "program": "${workspaceRoot}/bin/${fileBasenameNoExtension}",
     	        "args": [],
-    	        "cwd": "${workspaceRoot}/${fileBasenameNoExtension}",
+    	        "cwd": "${workspaceRoot}/bin",
     	        "environment": [],
     	        "externalConsole": false,
     	        "stopAtEntry": false,
