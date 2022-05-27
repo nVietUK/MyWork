@@ -1,13 +1,12 @@
-#include <bits/stdc++.h> 
+#include <bits/stdc++.h>
 
 using namespace std;
-unsigned long long Q, N, M, i, res;
 
 signed main() {
-    cin.tie(NULL)->sync_with_stdio(false);
-
-    cin >> Q; while(Q--) {
+    unsigned long long res; unsigned Q, N, M, i; cin >> Q; while (Q--) {
         cin >> N >> M;
-        cout << (1+N*(M*M-1))%(1000000000+7) << "\n";
+        for (i = 2; i < M; i++) 
+            res += i*2*N % (1000000007);
+        cout << (res + N+1 + N*M) % (1000000007);
     }
 }
