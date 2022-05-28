@@ -218,9 +218,19 @@ function! StatusLine(current, width)
   return l:s
 endfunction
 
+function! TabLine()
+  let l:vimlabel = has('nvim') ?  ' NVIM ' : ' VIM '
+  return crystalline#bufferline(2, len(l:vimlabel), 1) . '%=%#CrystallineTab# ' . l:vimlabel
+endfunction
+
 let g:crystalline_enable_sep = 1
 let g:crystalline_statusline_fn = 'StatusLine'
 let g:crystalline_theme = 'default'
 
 set guioptions-=e
 set laststatus=2
+
+" my custom function 
+function! Compile()
+    echom "First Vim function!"
+endfunction
