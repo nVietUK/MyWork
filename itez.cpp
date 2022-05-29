@@ -17,7 +17,7 @@ void update(int id, int l, int r, const int &pos, const int &val) {
 
 void build(int id, int l, int r) {
     if (l == r) {
-        st[id] = l;
+        st[id] = a[l];
         return;
     }
 

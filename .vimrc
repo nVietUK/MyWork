@@ -232,5 +232,16 @@ set laststatus=2
 
 " my custom function 
 function! Compile()
-    echom "First Vim function!"
+  :w
+  :!g++ -g '%:p' -o ./bin/'%:r'  
+endfunction
+
+function Run() 
+  :call Compile()
+  :!./bin/'%:r'
+endfunction
+
+function Share() 
+  :call Compile()
+  :!quickserve '%:p'
 endfunction
