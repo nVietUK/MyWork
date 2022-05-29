@@ -27,7 +27,7 @@ void build(int id, int l, int r) {
 }
 
 int get(int id, int l, int r, const int &u, const int &v) {
-    if (r < u || v < l) return -2000000000;
+    if (r < u || v < l) return -1e9-200;
     if (u <= l && r <= v) return st[id];
 
     int mid = l+r >> 1;
