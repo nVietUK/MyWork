@@ -13,7 +13,8 @@ call vundle#begin()
 	Plugin 'sheerun/vim-polyglot'
 	Plugin 'ryanoasis/vim-devicons'
 	Plugin 'neoclide/coc.nvim', {'branch': 'release'}
-    Plugin 'rbong/vim-crystalline'
+    Plugin 'vim-airline/vim-airline'
+    Plugin 'vim-airline/vim-airline-themes'
 call vundle#end()           
 
 let g:rainbow_active = 1
