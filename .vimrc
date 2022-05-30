@@ -15,6 +15,7 @@ call vundle#begin()
 	Plugin 'neoclide/coc.nvim', {'branch': 'release'}
     Plugin 'vim-airline/vim-airline'
     Plugin 'vim-airline/vim-airline-themes'
+    Plugin 'powerline/powerline'
 call vundle#end()           
 
 let g:rainbow_active = 1
@@ -230,6 +231,7 @@ let g:crystalline_theme = 'default'
 
 set guioptions-=e
 set laststatus=2
+let g:powerline_pycmd="py"
 
 " my custom function 
 function! Compile()
