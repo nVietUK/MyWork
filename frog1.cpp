@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <bits/stdc++.h> 
 #define next [0]
 #define jump [1]
@@ -11,7 +12,14 @@ int **st, *a;
 signed main() {
     cin.tie(NULL)->sync_with_stdio(false);
 
-    cin >> N; st = new int*[N+1]; a = new int[N+1];
+    cin >> N; st = new int*[N+1]; 
+    if (N+1 > 4) 
+        a = new int[N+1]; 
+    else { 
+        a = new int[4];
+        for (i = N+1; i <= 4; i++ )
+            st[i] = new int[2];
+    }
     for (i = 1; i <= N && cin >> a[i]; i++)
         st[i] = new int[2];
 
