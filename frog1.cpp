@@ -22,5 +22,5 @@ signed main() {
     for (i = 4; i <= N; i++) 
         st[i]next = min(st[i-1]next, st[i-1]jump) + toll(a[i], a[i-1]), st[i]jump = min(st[i-2]next, st[i-2]jump) + toll(a[i], a[i-2]);
 
-    return 0;
+    cout << min(st[N]next, st[N]jump);
 }
