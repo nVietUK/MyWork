@@ -3,8 +3,10 @@
 using namespace std;
 
 struct Edge {
-    int v
+    int v, w;
+    Edge(int v=0, int w=0) : v(v), w(w) {}
 }
+vector<Edge> *g;
 
 
 int main() {
