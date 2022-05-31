@@ -16,6 +16,7 @@ call vundle#begin()
     Plugin 'vim-airline/vim-airline'
     Plugin 'vim-airline/vim-airline-themes'
     Plugin 'powerline/powerline'
+    Plugin '907th/vim-auto-save'
 call vundle#end()           
 
 let g:rainbow_active = 1
@@ -37,7 +38,7 @@ set nobackup
 set nowritebackup
 
 " Give more space for displaying messages.
-set cmdheight=2
+set cmdheight=1
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
@@ -267,4 +268,5 @@ function Share()
   :!quickserve '%:p'
 endfunction
 
-autocmd TextChanged,TextChangedI <buffer> silent write
+let g:auto_save = 1  " enable AutoSave on Vim startup
+let g:auto_save_events = ["VimSuspend", "InsertLeave"]
