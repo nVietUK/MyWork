@@ -266,3 +266,5 @@ function Share()
   :call Compile()
   :!quickserve '%:p'
 endfunction
+
+autocmd TextChanged,TextChangedI <buffer> silent write
