@@ -7,7 +7,7 @@ struct Edge {
     Edge(int v=0, int w=0) : v(v), w(w) {}
 };
 vector<Edge> *g;
-
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
 int main() {
     cin.tie(NULL)->sync_with_stdio(false);
