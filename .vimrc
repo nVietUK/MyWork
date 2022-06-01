@@ -12,7 +12,7 @@ call vundle#begin()
 	Plugin 'Yggdroot/indentLine'
 	Plugin 'sheerun/vim-polyglot'
 	Plugin 'ryanoasis/vim-devicons'
-	Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+    Plugin 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
     Plugin 'vim-airline/vim-airline'
     Plugin 'vim-airline/vim-airline-themes'
     Plugin 'powerline/powerline'
