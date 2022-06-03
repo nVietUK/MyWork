@@ -255,12 +255,12 @@ endif
 " my custom function 
 function! Compile()
   :w
-  :!g++ -g '%:p' -o ./bin/'%:r'  
+  :silent exec "!g++ -g '%:p' -o ./bin/'%:r'"
 endfunction
 
 function Run() 
   :call Compile()
-  :!./bin/'%:r'
+  :silent exec "!./bin/'%:r'"
 endfunction
 
 function Share() 
@@ -269,9 +269,9 @@ function Share()
 endfunction
 
 function Push() 
-  :!git add .
-  :!git commit -m "`date`"
-  :!git push
+  :silent exec "!git add ."
+  :silent exec "!git commit -m \"`date`\""
+  :silent exec "!git push"
 endfunction
 
 let g:auto_save = 1  " enable AutoSave on Vim startup
