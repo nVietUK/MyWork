@@ -1,13 +1,14 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-vector<unsigned> *g;
-unsigned n, v, u, *h, **up, i, m, root=1;
+vector<int> g[100009];
+int n, v, u, h[100009], up[100009][17], m, root=1;
+int i;
 char c;
 
-void dfs(unsigned u) {
-    for (unsigned &v : g[u]) {
-        if (v == g[u][0]) continue;
+void dfs(int u) {
+    for (int &v : g[u]) {
+        if (v == up[u][0]) continue;
 
         h[v] = h[u]+1, up[v][0] = u;
         for (i = 1; i < 17; i++)
@@ -16,7 +17,7 @@ void dfs(unsigned u) {
     }
 }
 
-unsigned lca(unsigned u, unsigned v) {
+int lca(int u, int v) {
     if (h[u] != h[v]) {
         if (h[u] < h[v]) swap(u, v);
 
@@ -38,8 +39,7 @@ signed main() {
     cin.tie(NULL)->sync_with_stdio(false);
 
     while (cin >> n, n) {
-        g = new vector<unsigned>[n+10]; h = new unsigned[n+10]; up = new unsigned*[n+10]; up[0] = new unsigned[17];
-        for (i = 1; i <= n; i++) { g[i].clear(); up[i] = new unsigned[17]; }
+        for (i = 1; i <= n; i++) { g[i].clear(); }
         for (i = 1; i < n; i++) {
             cin >> u >> v;
             g[u].push_back(v);
