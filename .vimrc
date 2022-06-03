@@ -268,5 +268,11 @@ function Share()
   :!quickserve '%:p'
 endfunction
 
+function Push() 
+  :!git add .
+  :!git commit -m "`date`"
+  :!git push
+endfunction
+
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_events = ["VimSuspend", "InsertLeave"]
