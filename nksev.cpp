@@ -25,9 +25,10 @@ signed main() {
         insert(T);
 
     f[0]=1; l = strlen(S+1);
-    for (i=1; i <= l; i++) 
-        for (j = i; j && trie[u].next[S[j] - 0x61]; j--) 
+    for (i=1; i <= l; i++) {
+        u=0; for (j = i; j && trie[u].next[S[j] - 0x61]; j--) 
             if (trie[u = trie[u].next[S[j] - 0x61]].nfinish)
                 f[i] = (f[j-1]+f[i]) % modular;
+    }
     cout << f[l];
 }

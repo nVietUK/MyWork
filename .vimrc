@@ -261,11 +261,13 @@ endfunction
 function Run() 
   :call Compile()
   :silent exec "!./bin/'%:r'"
+  :!
 endfunction
 
 function Share() 
   :call Compile()
   :silent exec "!quickserve '%:p'"
+  :!
 endfunction
 
 function Push() 
