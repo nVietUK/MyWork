@@ -13,7 +13,7 @@ struct pp
     {
         return this->first > a.first && this->second > a.second;
     }
-    inline bool operator>(set<pp>& a)
+    inline bool operator>(set<pp, myless>& a)
     {
         for (auto& temp2 : a)
         if (this->first > temp2.first && this->second > temp2.second)
@@ -51,11 +51,7 @@ unsigned diem(int& in)
 
 int main()
 {
-    ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
-#ifndef ONLINE_JUDGE
-    freopen("LIS.inp", "r", stdin);
-    freopen("LIS.out", "w", stdout);
-#endif
+    cin.tie(NULL)->sync_with_stdio(false);
     
     long long n; cin >> n; 
     ta[n+1].first = ta[n+1].second = INT64_MAX; 
