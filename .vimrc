@@ -232,7 +232,6 @@ let g:crystalline_theme = 'default'
 
 set guioptions-=e
 set laststatus=2
-colorscheme darkblue
 
 " Powerline config
 set guifont=Inconsolata\ for\ Powerline:h15
