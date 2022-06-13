@@ -2,31 +2,35 @@
 
 using namespace std;
 
-unsigned *parr, N, i, q, x, y;
+unsigned *parr, N, i, q, x, y; 
+set<unsigned> *hate;
 void init() {
-    parr = new unsigned[N+2];
-    for (i = 0; i < N+2; i++) 
+    parr = new unsigned[N], hate = new set<unsigned>[N-1];
+    for (i = 0; i < N; i++) 
         parr[i] = i;
 }
 
-unsigned getparr(const unsigned &p) { return (p != parr[p]) ? getparr(p) : p; }
+unsigned getparr(unsigned p) { return (p != parr[p]) ? getparr(parr[p]) : p; }
 
 void union_set(unsigned& u, unsigned& v) { 
     u = getparr(u), v = getparr(v);
-    if (u == N+1 || v == N+1) {
+    if (u > v) swap(u, v);
+    if (hate[u].find(v) != hate[u].end()) {
         cout << -1 << '\n';
         return;
     }
-    parr[v] = u, parr[u] = N;
+    for (unsigned e : hate[v]) hate[u].insert(e); 
+    parr[v] = u; 
 }
 
 void noinu_set(unsigned& u, unsigned& v) {
     u = getparr(u), v = getparr(v);
-    if (u == N || v == N) {
+    if (u > v) swap(u, v);
+    if (u == v) {
         cout << -1 << '\n';
         return;
     }
-    parr[v] = u, parr[u] = N+1;
+    hate[u].insert(v);
 }
 
 void same_ali(unsigned &u, unsigned &v) { u = getparr(u); cout << ((u == getparr(v)) ? 1 : 0) << '\n'; return; }
