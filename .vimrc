@@ -265,7 +265,7 @@ endfunction
 
 function Share() 
   :call Compile()
-  :silent exec "!quickserve '%:p'"
+  :silent exec "!cat '%:p'"
   :!
 endfunction
 
