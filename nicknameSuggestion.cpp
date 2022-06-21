@@ -3,7 +3,7 @@
 using namespace std;
 
 struct node { node *next['z']; char c=0; } tree;
-string q[1000009], s;
+string q[1000009], s; map<string
 
 void build(unsigned id, string &s, node *tree) {
     if (id == s.size()) return;
