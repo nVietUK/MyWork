@@ -3,16 +3,18 @@
 #include <cstddef>
 #include <ios>
 #include <iostream>
+#include <iterator>
 #include <set>
 #include <vector>
 
 unsigned N, L, inp, o, t, ou;
+std::set<unsigned> b;
 
 void findM(std::set<unsigned> a[21][2], unsigned d, std::set<unsigned> s, unsigned c) {
     if (s.size() == N) ou = std::min(ou, c);
     for (unsigned i = d+1; i < L; i++) {
-        auto t = s; t.insert(a[d][0].begin(), a[d][0].end()); findM(a, i, t, c+1);
-             t = s; t.insert(a[d][1].begin(), a[d][1].end()); findM(a, i, t, c+1);
+        std::set_union(s.begin(), s.end(), a[d][0].begin(), a[d][0].end(), std::inserter(b, b.begin())); findM(a, i, b, c+1);
+        std::set_union(s.begin(), s.end(), a[d][1].begin(), a[d][1].end(), std::inserter(b, b.begin())); findM(a, i, b, c+1);
     }
 }
 
