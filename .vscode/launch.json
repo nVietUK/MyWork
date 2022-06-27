@@ -5,34 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Folder",
+            "name": "Terminal",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/${fileBasenameNoExtension}",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/${fileBasenameNoExtension}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "Folder",
-            "miDebuggerPath": "gdb",
-        },
-        {
-            "name": "Terminal",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${Working}/bin/${fileBasenameNoExtension}",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/bin",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -45,40 +24,6 @@
             ],
             "preLaunchTask": "Terminal",
             "miDebuggerPath": "gdb.exe",
-        },
-        {
-            "name": "Thread",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${fileDirname}/linuxEXE/${fileBasenameNoExtension}",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}/${fileBasenameNoExtension}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "Thread",
-            "miDebuggerPath": "/usr/bin/gdb",
-            "sourceFileMap": {
-                "/build/glibc-S7xCS9": "/usr/src/glibc"
-            }
-        },
-        {
-            "name": "Time",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${fileDirname}/linuxEXE/${fileBasenameNoExtension}",
-            "cwd": "${fileDirname}/${fileBasenameNoExtension}",
-            "sourceFileMap": {
-                "/build/glibc-S7xCS9": "/usr/src/glibc"
-            }
-        }        
+        }
     ]
 }
