@@ -9,12 +9,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/${fileBasenameNoExtension}",
-            "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/bin",
-            "environment": [],
+            "cwd": "${workspaceFolder}",
             "externalConsole": false,
-            "MIMode": "gdb",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -23,7 +20,6 @@
                 }
             ],
             "preLaunchTask": "Terminal",
-            "miDebuggerPath": "gdb.exe",
-        }
+        },
     ]
 }

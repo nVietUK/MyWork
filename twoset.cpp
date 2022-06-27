@@ -1,13 +1,12 @@
-#include <ios>
-#include <iostream>
-#include <set>
+#include <bits/stdc++.h>
 
 using namespace std;
 
 signed main() {
     cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(0);
 
-    long long n; cin >> n; long long nn = n*(n-1)/2;
+    long long n; cin >> n; 
+    long long nn = n*(n+1)/2;
     if (nn%2) cout << "NO";
     else {
         cout << "YES" << '\n';
