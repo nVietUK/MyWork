@@ -12,11 +12,11 @@ call vundle#begin()
 	Plugin 'Yggdroot/indentLine'
 	Plugin 'sheerun/vim-polyglot'
 	Plugin 'ryanoasis/vim-devicons'
-    Plugin 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
-    Plugin 'vim-airline/vim-airline'
-    Plugin 'vim-airline/vim-airline-themes'
-    Plugin 'powerline/powerline'
-    Plugin '907th/vim-auto-save'
+	Plugin 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+	Plugin 'vim-airline/vim-airline'
+	Plugin 'vim-airline/vim-airline-themes'
+	Plugin 'powerline/powerline'
+	Plugin '907th/vim-auto-save'
 call vundle#end()           
 
 let g:rainbow_active = 1
